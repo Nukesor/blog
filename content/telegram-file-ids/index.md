@@ -30,7 +30,7 @@ One evening, when I was just writing good night to my SO, I noticed something te
 My favorite telegram bird stickers were no longer at the top of my suggested sticker list!
 
 Since you probably don't know yet, I wrote a telegram sticker bot to easily find and manage stickers in 2018 named [Sticker Finder](https://github.com/nukesor/sticker-finder) ([@stfi_bot](https://t.me/stfi_bot)).
-By 2019 it was finished, polished and feature-rich and working like a charm.
+By 2019 it was finished, polished, feature-rich and working like a charm.
 
 Among those features are:
 
@@ -41,15 +41,16 @@ Among those features are:
 - At the time of writing there are 308k stickers and 5800 sticker sets.
 
 
-Well, I use those bird stickers really often, and they should actually be on top of the list, but they were mysteriously missing.
-This could only mean that something went somehow really wrong...
+Anyhow, back to the topic of missing bird stickers.
+Well, I use those bird stickers really often, and they should actually be on top of the list, but somehow they were missing.
+This could only mean that something went terribly wrong...
 
 <p style="flex flex-row" align="center">
     <img src="merged_broken_search.png">
 </p>
 
-At this point of time, I was incredibly confused.
-It was about 2am in the night, the bot has been running for months without any serious bugs and everything was perfect. 
+At this point of time, I was quite confused.
+It was about 2am in the middle of the night, the bot has been running for months without any serious bugs and everything was perfect. 
 There was a slow and steady stream of new users and people occasionally added new tags.
 How could this happen?
 
@@ -72,7 +73,7 @@ stickerfinder> select su.sticker_file_id, su.created_at, su.usage_count from sti
 +----------------------------------+----------------------------+---------------+
 ```
 
-That's when I went full panic mode. This couldn't be, I've used more than a hundred times: **I was losing data!**
+That's when I went full panic mode. This couldn't be, I've used this pack more than a hundred times: **I was losing data!**
 
 My first thought was that there was somehow a wrong delete statement for sticker sets, which resulted in everything being deleted through foreign key cascades.
 However this wasn't the case. The creation date of the sticker set was still in 2018 and everything was fine.
@@ -125,7 +126,7 @@ Sticker Finder complained about not knowing a specific sticker of a set, even th
 A faint hunch crept into my mind, but... naaahh..., that couldn't be the case, why should they do something like this?
 Just changing file ids without saying anything, they wouldn't do something like this, that would be weird.
 
-Still I wanted to be sure and dug out some old database dump in which everything was still fine.
+Still, I wanted to be sure and dug out some old database dump in which everything was still fine.
 
 A few lines of debugging debugging code later:
 
