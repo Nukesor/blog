@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://arne.beer"
+base_url = "https://blog.arne.beer"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -18,9 +18,10 @@ taxonomies = [
 
 [extra]
 # Put all your custom variables here
-after_dark_menu = [
+main_title = "Arne Beer's Tech Blog"
+menu = [
     {url = "$BASE_URL", name = "Home"},
     {url = "$BASE_URL/categories", name = "Categories"},
     {url = "$BASE_URL/tags", name = "Tags"},
-    {url = "https://google.com", name = "Google"},
+    {url = "https://arne.beer", name = "About me"},
 ]

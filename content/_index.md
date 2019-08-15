@@ -1,13 +1,14 @@
 +++
-title = "A blog about stuff"
+title = "A blog about tech stuff"
+description = ""
 
-description = "Test"
+# Whether to sort pages by "date", "weight", or "none". More on that below
+sort_by = "date"
 
-# How many pages to be displayed per paginated page.
-# No pagination will happen if this isn't set or if the value is 0
+# Template to use to render this section page
+template = "index.html"
+
 paginate_by = 5
-# Your own data
+
 [extra]
 +++
-
-Some content

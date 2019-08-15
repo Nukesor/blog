@@ -1,6 +1,6 @@
 +++
-title = "The mystery of Telegram's file ids"
-description = "A debugging story about data loss and some weird behavior of one of my bots"
+title = "The mystery of Telegram's changing file ids"
+summary = "A debugging story about weird behavior of one of my bots, data loss, and telegram's peculiarities."
 date = 2019-08-15
 
 # If the section variable `sort_by` is set to `weight`, then any page that lacks a `weight` will not be rendered.
