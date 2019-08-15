@@ -80,7 +80,8 @@ My first thought was that there was somehow a wrong delete statement for sticker
 However this wasn't the case. The creation date of the sticker set was still in 2018 and everything was fine.
 
 ```
-stickerfinder> select created_at from sticker_set where name = 'bribstuff'
+stickerfinder> select created_at from sticker_set
+    where name = 'bribstuff'
 +----------------------------+
 | created_at                 |
 |----------------------------|
@@ -162,7 +163,8 @@ Since the sticker set has never been deleted the only thing that changed was the
 Because of this, it should also be easy to see how many stickers are affected by this bug.
 
 ```
-stickerfinder> select count(*) from sticker where sticker_set_name is null;                                                                  
+stickerfinder> select count(*) from sticker
+    where sticker_set_name is null;
 +---------+
 | count   |
 |---------|
