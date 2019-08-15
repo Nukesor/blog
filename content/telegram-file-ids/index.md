@@ -119,7 +119,7 @@ stickerfinder> select s.file_id, s.created_at from sticker as s
 We are getting closer. The sticker set hasn't been deleted, but it looks like the stickers have been created only a day ago.
 
 Somehow my memory kicked in and I remembered a weird behavior I noticed about a week ago, while I was tagging some stickers in the metro.
-At the time I didn't think much of it and shrugged it off as a random glitch (Don't ever do that, when it's your own project...).
+At the time I didn't think much of it and shrugged it off as a random glitch (Don't ever do that, if it's your own project...).
 
 ![glitch](glitch.png)
 
