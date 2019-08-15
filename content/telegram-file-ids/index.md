@@ -92,9 +92,9 @@ stickerfinder> select created_at from sticker_set
 Anyway, I wanted to be sure and looked at every single `session.query.delete(` statement in the project, with the result that this couldn't be the source of the problem.
 
 And here I was going back to being even more confused, since I couldn't think of any reason for my stickers loosing their tags and usages.
-Still, I continued to dig around and kept looking att the database on the search for clues.
+Still, I continued to dig around and kept looking at the database on the search for clues.
 
-While investigating at the stickers again I noticed something quite odd.
+While investigating the stickers again I noticed something quite odd.
 
 ```
 stickerfinder> select s.file_id, s.created_at from sticker as s 
