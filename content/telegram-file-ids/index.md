@@ -26,10 +26,11 @@ categories = ["Bug hunting"]
 +++
 
 
-One evening, when I was just writing good night to my SO, I noticed something terrible.
+One evening, when I was just texting my SO good night, I noticed something terrible.
 My favorite telegram bird stickers were no longer at the top of my suggested sticker list!
 
-Since you probably don't know yet, I wrote a telegram sticker bot to easily find and manage stickers in 2018 named [Sticker Finder](https://github.com/nukesor/sticker-finder) ([@stfi_bot](https://t.me/stfi_bot)).
+Since you probably don't know my projects yet, here some background info.
+I wrote a telegram sticker bot to easily find and manage stickers in 2018 named [Sticker Finder](https://github.com/nukesor/sticker-finder) ([@stfi_bot](https://t.me/stfi_bot)).
 By 2019 it was finished, polished, feature-rich and working like a charm.
 
 Among those features are:
@@ -54,7 +55,7 @@ It was about 2am in the middle of the night, the bot has been running for months
 There was a slow and steady stream of new users and people occasionally added new tags.
 How could this happen?
 
-First thing I did afterwards, was to check the tags of one of the stickers that was no longer in my favorite list.
+First thing I did, was to check the tags of one of the stickers that were no longer in my favorite list.
 As it turned out this sticker did not just vanish from my favorites, all tags of the sticker were gone as well!
 
 ![missing stickers](missing_tags.png)
@@ -90,9 +91,9 @@ stickerfinder> select created_at from sticker_set where name = 'bribstuff'
 Anyway, I wanted to be sure and looked at every single `session.query.delete(` statement in the project, with the result that this couldn't be the source of the problem.
 
 And here I was going back to being even more confused, since I couldn't think of any reason for my stickers loosing their tags and usages.
-Still, I continued to dig around and look at the database on the search for clues.
+Still, I continued to dig around and kept looking att the database on the search for clues.
 
-When looking at the stickers again I noticed something quite odd.
+While investigating at the stickers again I noticed something quite odd.
 
 ```
 stickerfinder> select s.file_id, s.created_at from sticker as s 
@@ -114,10 +115,10 @@ stickerfinder> select s.file_id, s.created_at from sticker as s
 +------------------------------------+----------------------------+
 ```
 
-We are getting close. The sticker set hasn't been deleted, but it looks like the stickers have been created only a day ago.
+We are getting closer. The sticker set hasn't been deleted, but it looks like the stickers have been created only a day ago.
 
-Somehow my memory kicked in and I remembered a weird behavior I noticed about a week ago, while I was on the go and tagging some stickers in the metro.
-At the time I didn't think much of it and shrugged it off as a random glitch.
+Somehow my memory kicked in and I remembered a weird behavior I noticed about a week ago, while I was tagging some stickers in the metro.
+At the time I didn't think much of it and shrugged it off as a random glitch (Don't ever do that, when it's your own project...).
 
 ![glitch](glitch.png)
 
@@ -148,15 +149,15 @@ New id: CAADAgADagEAAuE14wi8kneF2_GsQxYE
 
 Ok. Time for damage control and some explanations.
 
-Sticker Finder uses telegrams file ids as a primary key for stickers, since it's the only identifier I can work with.
-Thereby this identifier is also used as a foreign key for usage statistics and the many-to-many table between tags and stickers.
+Sticker Finder uses Telegram's file ids as a primary key for stickers, since it's the only unique identifier I can work with.
+Thereby this id is also used as a foreign key for usage statistics and the many-to-many table between tags and stickers.
 
 In case Sticker Finder encounters a unknown sticker, whose set is known, it is assumed that this pack got new stickers and a rescan of the whole set is triggered.
-This rescan method then replaces the old sticker collection of the set with the newly detected and up-to-date one.
+This rescan method then replaces the old sticker collection of the sticker set with an up-to-date collection.
 
 Luckily, I was a little bit more careful than usual when defining the relationships between sticker sets and stickers.
 Instead of deleting all orphans of the collection, I only added an `ON DELETE CASCADE` to the relationship between the two, just in case.
-Since the sticker set has never been deleted the only thing that changed was the reference of the sticker to the set, which has been updated to `NULL`.
+Since the sticker set has never been deleted the only thing that changed was the reference of the sticker to the sticker set, which has been updated to `NULL`.
 
 Because of this, it should also be easy to see how many stickers are affected by this bug.
 
@@ -171,8 +172,10 @@ stickerfinder> select count(*) from sticker where sticker_set_name is null;
 
 Holy shit! That's a lot... After looking at some timestamps, I discovered that this was going on for months already, without anyone noticing (or anyone reporting).
 
-But as already mentioned, the old data was still there, it only needed to be merged with the new one.
-Since calling the `bot.get_file()` function with the old file id would yield the new one, I now had a way to map my old data to the new one:
+But as already mentioned, the old data was still there, it just needed to be merged with the new one.
+Since calling the `bot.get_file()` function with the old file id would yield the new id, I now had a way to map my old data to the new one.
+
+The code looks something like this:
 
 ```
 # Sometimes file ids in telegram seem to randomly change
@@ -201,8 +204,9 @@ for sticker in sticker_set.stickers:
 
 After all, about three hours later, I managed to have minimal data loss. Didn't expect that.
 
-I have absolutely no idea why the telegram devs are doing this, but I brought this topic up in a talk with a few other telegram bot devs and it turns out that several of them are having trouble with their bots because of this behavior.
-Random changes of file ids seem not only to happen for stickers, but they rather happens for all files!
+I have absolutely no idea why the telegram devs are doing this.
+I brought this topic up in a talk with a few other telegram bot devs and it turns out that several of them are having trouble with their bots because of this behavior.
+Random changes of file ids seem not only to happen for stickers, but they rather happen for all files!
 
 Anyway, I implemented a stable and reliable fix and everything should be back to normal.
 
