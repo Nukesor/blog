@@ -45,14 +45,13 @@ Well, I use those bird stickers really often, and they should actually be on top
 This could only mean that something went somehow really wrong...
 
 <p style="flex flex-row" align="center">
-    <img src="broken_search.png">
-    <img src="normal_search.png">
+    <img src="merged_broken_search.png">
 </p>
 
 At this point of time, I was incredibly confused.
 It was about 2am in the night, the bot has been running for months without any serious bugs and everything was perfect. 
 There was a slow and steady stream of new users and people occasionally added new tags.
-How could this happen.
+How could this happen?
 
 First thing I did afterwards, was to check the tags of one of the stickers that was no longer in my favorite list.
 As it turned out this sticker did not just vanish from my favorites, all tags of the sticker were gone as well!
