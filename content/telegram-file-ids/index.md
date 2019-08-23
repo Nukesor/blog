@@ -126,7 +126,7 @@ At the time I didn't think much of it and shrugged it off as a random glitch (Do
 Sticker Finder complained about not knowing a specific sticker of a set, even though it was definitely known beforehand!
 
 A faint hunch crept into my mind, but... naaahh..., that couldn't be the case, why should they do something like this?
-Just changing file ids without saying anything, they wouldn't do something like this, that would be weird.
+Just changing file ids without saying anything...? They wouldn't do something like this, that would be weird.
 
 Still, I wanted to be sure and dug out some old database dump in which everything was still fine.
 
@@ -137,7 +137,7 @@ for sticker in sticker_set.stickers:
     tg_sticker = bot.get_file(sticker.file_id)
     if tg_sticker.file_id != sticker.file_id:
         print(f'Old id: {sticker.file_id}')
-        print(f'New id: {sticker.file_id}')
+        print(f'New id: {tg_sticker.file_id}')
 ```
 
 ```
