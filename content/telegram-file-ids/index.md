@@ -46,9 +46,7 @@ Anyhow, back to the topic of missing bird stickers.
 Well, I use those bird stickers really often, and they should actually be on top of the list, but somehow they were missing.
 This could only mean that something went terribly wrong...
 
-<p style="flex flex-row" align="center">
-    <img src="merged_broken_search.png">
-</p>
+{{ responsive_image(path="../content/telegram-file-ids/merged_broken_search.png") }}
 
 At this point of time, I was quite confused.
 It was about 2am in the middle of the night, the bot has been running for months without any serious bugs and everything was perfect. 
@@ -58,11 +56,11 @@ How could this happen?
 First thing I did, was to check the tags of one of the stickers that were no longer in my favorite list.
 As it turned out this sticker did not just vanish from my favorites, all tags of the sticker were gone as well!
 
-![missing stickers](missing_tags.png)
+{{ responsive_image(path="../content/telegram-file-ids/missing_tags.png") }}
 
 I couldn't believe my eyes at first and checked the database:
 
-```
+```sql
 stickerfinder> select su.sticker_file_id, su.created_at, su.usage_count from sticker_usage as su 
 ..............     join sticker as s ON s.file_id = su.sticker_file_id 
 ..............     join sticker_set as ss on ss.name = s.sticker_set_name 
@@ -79,7 +77,7 @@ That's when I went full panic mode. This couldn't be, I've used this pack more t
 My first thought was that there was somehow a wrong delete statement for sticker sets, which resulted in everything being deleted through foreign key cascades.
 However this wasn't the case. The creation date of the sticker set was still in 2018 and everything was fine.
 
-```
+```sql
 stickerfinder> select created_at from sticker_set
     where name = 'bribstuff'
 +----------------------------+
@@ -96,7 +94,7 @@ Still, I continued to dig around and kept looking at the database on the search 
 
 While investigating the stickers again I noticed something quite odd.
 
-```
+```sql
 stickerfinder> select s.file_id, s.created_at from sticker as s 
 ..............     join sticker_set as ss on ss.name = s.sticker_set_name 
 .............. where ss.name = 'bribstuff' limit 10;
@@ -121,7 +119,7 @@ We are getting closer. The sticker set hasn't been deleted, but it looks like th
 Somehow my memory kicked in and I remembered a weird behavior I noticed about a week ago, while I was tagging some stickers in the metro.
 At the time I didn't think much of it and shrugged it off as a random glitch (Don't ever do that, if it's your own project...).
 
-![glitch](glitch.png)
+{{ responsive_image(path="../content/telegram-file-ids/glitch.png") }}
 
 Sticker Finder complained about not knowing a specific sticker of a set, even though it was definitely known beforehand!
 
@@ -132,7 +130,7 @@ Still, I wanted to be sure and dug out some old database dump in which everythin
 
 A few lines of debugging debugging code later:
 
-```
+```py
 for sticker in sticker_set.stickers:
     tg_sticker = bot.get_file(sticker.file_id)
     if tg_sticker.file_id != sticker.file_id:
@@ -145,8 +143,9 @@ Old id: CAADAgADagEAAuE14wi8kneF2_GsQwI
 New id: CAADAgADagEAAuE14wi8kneF2_GsQxYE
 ```
 
-![wtf](kermit.gif)
-
+<div class="gif">
+    <img src="kermit.gif" style="width:auto;"></img>
+</div>
 
 Ok. Time for damage control and some explanations.
 
@@ -162,7 +161,7 @@ Since the sticker set has never been deleted the only thing that changed was the
 
 Because of this, it should also be easy to see how many stickers are affected by this bug.
 
-```
+```sql
 stickerfinder> select count(*) from sticker
     where sticker_set_name is null;
 +---------+
@@ -179,7 +178,7 @@ Since calling the `bot.get_file()` function with the old file id would yield the
 
 The code looks something like this:
 
-```
+```py
 # Sometimes file ids in telegram seem to randomly change
 # If this has already happened, merge the two stickers (backup replay)
 # otherwise, change the file id to the new one
@@ -212,7 +211,9 @@ Random changes of file ids seem not only to happen for stickers, but they rather
 
 Anyway, I implemented a stable and reliable fix and everything should be back to normal.
 
-![n1](chilling.gif)
+<div class="gif">
+    <img src="chilling.gif" style="width:auto;"></img>
+</div>
 
 Lessons learned:
 - Never be too eager about deleting data and keeping a super clean database state. You might need those "unnecessary" bits of data.

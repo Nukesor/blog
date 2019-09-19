@@ -78,9 +78,6 @@ figure a[rel*="external"] {
 html {
     font-size: 13px;
 }
-.hack pre {
-    font-size: 17px;
-}
 article [itemprop="description"], article [itemprop="summary"] {
     margin-bottom: 20px;
     margin-top: 20px;
@@ -90,11 +87,24 @@ article [itemprop="summary"] p {
     margin: 0;
 }
 
+.responsive-picture picture {
+    display: flex;
+    justify-content: center;
+}
+
+.gif {
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (min-width: 768px) {
     html {
         font-size: 1em;
     }
     .container {
         max-width: 50rem;
+    }
+    .hack pre {
+        font-size: 17px;
     }
 }

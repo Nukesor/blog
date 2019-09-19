@@ -1,0 +1,7 @@
+<div class="responsive-picture">
+    <picture>
+        <source media="(min-width: 768px)" srcset="{{resize_image(path=path, height=4000, width=800, op="shrink_fit")}}"></source>
+        <source media="(min-width: 512px)" srcset="{{resize_image(path=path, height=4000, width=512, op="shrink_fit")}}"></source>
+        <img src="{{resize_image(path=path, height=4000, width=800, op="shrink_fit")}}" style="width:auto;"></img>
+    </picture>
+<div>
