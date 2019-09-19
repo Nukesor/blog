@@ -46,7 +46,7 @@ Anyhow, back to the topic of missing bird stickers.
 Well, I use those bird stickers really often, and they should actually be on top of the list, but somehow they were missing.
 This could only mean that something went terribly wrong...
 
-{{ responsive_image(path="../content/telegram-file-ids/merged_broken_search.png") }}
+{{ responsive_image(path="../content/telegram-file-ids/merged_broken_search.png", alt="Missing bird sticker in second search") }}
 
 At this point of time, I was quite confused.
 It was about 2am in the middle of the night, the bot has been running for months without any serious bugs and everything was perfect. 
@@ -56,7 +56,7 @@ How could this happen?
 First thing I did, was to check the tags of one of the stickers that were no longer in my favorite list.
 As it turned out this sticker did not just vanish from my favorites, all tags of the sticker were gone as well!
 
-{{ responsive_image(path="../content/telegram-file-ids/missing_tags.png") }}
+{{ responsive_image(path="../content/telegram-file-ids/missing_tags.png", alt="No tags on birb sticker!!") }}
 
 I couldn't believe my eyes at first and checked the database:
 
@@ -119,7 +119,7 @@ We are getting closer. The sticker set hasn't been deleted, but it looks like th
 Somehow my memory kicked in and I remembered a weird behavior I noticed about a week ago, while I was tagging some stickers in the metro.
 At the time I didn't think much of it and shrugged it off as a random glitch (Don't ever do that, if it's your own project...).
 
-{{ responsive_image(path="../content/telegram-file-ids/glitch.png") }}
+{{ responsive_image(path="../content/telegram-file-ids/glitch.png", alt="Suspicious message") }}
 
 Sticker Finder complained about not knowing a specific sticker of a set, even though it was definitely known beforehand!
 
